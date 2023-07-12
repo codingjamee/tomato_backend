@@ -4,6 +4,10 @@ const cateRoutes = require("./routes/cate");
 
 const app = express();
 
+const db = require("./util/database");
+
+db.execute();
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(

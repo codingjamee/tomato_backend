@@ -1,5 +1,16 @@
 const { v4: uuidv4 } = require("uuid");
 
+const Product = require("../models/product");
+
+exports.postProduct = (req, res, next) => {
+  const product = new Product(req.body.title);
+  product.save();
+};
+
+exports.getProducts = (req, res, next) => {
+  const products = new Product("dummy");
+};
+
 exports.getBest = (req, res, next) => {
   res.status(200).json({
     title: "베스트",
