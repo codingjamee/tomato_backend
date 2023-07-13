@@ -6,4 +6,4 @@ const pool = mysql2.createPool({
   database: "tomato-backend",
 });
 
-module.exports = pool;
+module.exports = pool.promise();

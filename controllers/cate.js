@@ -2,13 +2,14 @@ const { v4: uuidv4 } = require("uuid");
 
 const Product = require("../models/product");
 
-exports.postProduct = (req, res, next) => {
-  const product = new Product(req.body.title);
-  product.save();
-};
+exports.postProduct = (req, res, next) => {};
 
 exports.getProducts = (req, res, next) => {
-  const products = new Product("dummy");
+  Product.fetchAll()
+    .then(([rows]) => {
+      console.log(rows[0]);
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getBest = (req, res, next) => {

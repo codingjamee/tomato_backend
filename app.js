@@ -6,7 +6,9 @@ const app = express();
 
 const db = require("./util/database");
 
-db.execute();
+db.execute("SELECT * FROM products")
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
