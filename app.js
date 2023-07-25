@@ -28,35 +28,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  if (req.body && req.body.image) {
-    const base64Data = req.body.image.split(";base64,").pop(); // Base64 데이터 추출
-    const imageFileName = Date.now() + ".jpg"; // 이미지 파일 이름 생성 (여기서는 jpg 확장자로 가정)
-    const imagePath = path.join(__dirname, "uploads", imageFileName);
-
-    fs.writeFile(imagePath, base64Data, { encoding: "base64" }, (err) => {
-      if (err) {
-        console.error("Error saving image:", err);
-        return res.status(500).json({ error: "Failed to save image." });
-      }
-
-      // 이미지가 성공적으로 저장되었을 때, 파일 경로를 요청 객체에 추가
-      req.imagePath = imagePath;
-      next();
-    });
-  } else {
-    next();
-  }
-});
-
-app.get("/image", (req, res) => {
-  if (req.imagePath) {
-    res.sendFile(req.imagePath); // 이미지 파일 전송
-  } else {
-    res.status(404).json({ error: "Image not found." });
-  }
-});
-
 app.use("/", adminRoutes);
 app.use("/", cateRoutes);
 

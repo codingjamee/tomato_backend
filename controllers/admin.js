@@ -9,27 +9,31 @@ exports.postProduct = (req, res, next) => {
   const description = req.body.description;
   const uploadedFiles = Object.values(req.files); // req.files 객체의 값들을 배열로 변환
 
-  console.log("Uploaded Files:", uploadedFiles); // 이 줄을 추가하여 uploadedFiles 배열의 내용을 확인합니다.
+  console.log("Uploaded Files:", uploadedFiles);
 
-  //파일을 저장할 디렉토리
+  //파일을 저장할 곳
   const uploadDir = path.join(__dirname, "uploads");
 
   const imageUrls = [];
 
-  for (const file of uploadedFiles) {
-    const imageFileName = Date.now() + "-" + file[0].originalname;
-    const imagePath = path.join(uploadDir, imageFileName);
+  console.log(uploadedFiles);
 
-    fs.writeFile(imagePath, file.buffer, (err) => {
+  for (const file of uploadedFiles) {
+    const imagePath = uploadDir;
+    const fileBuffer = Buffer.from(file);
+
+    fs.writeFile(imagePath, fileBuffer, (err) => {
       if (err) {
         console.error("Error saving image:", err);
         return res.status(500).json({ error: "Failed to save image." });
+      } else {
+        console.log("file write successful!");
       }
 
-      // 이미지 파일이 성공적으로 저장되었을 때, 해당 파일의 경로를 imageUrls 배열에 추가합니다.
+      // 이미지 파일이 성공적으로 저장되었을 때, 해당 파일의 경로를 imageUrls 배열에 추가
       imageUrls.push(imagePath);
 
-      // 만약 모든 이미지 파일을 처리했다면, 데이터베이스에 제품 정보를 저장합니다.
+      // 만약 모든 이미지 파일을 처리했을 때, 데이터베이스에 제품 정보를 저장
       if (imageUrls.length === uploadedFiles.length) {
         const product = new Product(
           title,
