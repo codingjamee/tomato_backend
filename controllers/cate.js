@@ -2,12 +2,6 @@ const { v4: uuidv4 } = require("uuid");
 
 const Product = require("../models/product");
 
-exports.postProduct = (req, res, next) => {
-  Product.save()
-    .catch()
-    .then((err) => console.log(err));
-};
-
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
     .then(([rows]) => {
